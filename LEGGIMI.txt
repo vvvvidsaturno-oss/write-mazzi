@@ -1,0 +1,7 @@
+WRITE Mazzi - app installabile
+
+1. Carica TUTTI i file di questa cartella su un sito gratuito (Netlify Drop, GitHub Pages...).
+2. Apri l'indirizzo che ti danno dal browser del telefono.
+3. Chrome (Android): menu a tre puntini > "Installa app" / "Aggiungi a schermata Home".
+   Safari (iPhone): Condividi > "Aggiungi alla schermata Home".
+Dopo la prima apertura funziona anche senza internet.
