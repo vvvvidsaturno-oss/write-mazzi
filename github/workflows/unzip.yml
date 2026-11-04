@@ -1,0 +1,22 @@
+name: Estrai zip
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Estrai
+        run: |
+          if [ -f write-mazzi-app.zip ]; then
+            unzip -o write-mazzi-app.zip
+            rm write-mazzi-app.zip
+            git config user.name "github-actions"
+            git config user.email "actions@github.com"
+            git add -A
+            git commit -m "Estrai app"
+            git push
+          fi
