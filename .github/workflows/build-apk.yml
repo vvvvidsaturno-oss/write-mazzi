@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -64,6 +64,8 @@ jobs:
 
       - name: Usa il logo dell'app al posto di quello predefinito
         run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
           res=android/app/src/main/res
           for d in "mdpi 48 108" "hdpi 72 162" "xhdpi 96 216" "xxhdpi 144 324" "xxxhdpi 192 432"; do
             set -- $d
