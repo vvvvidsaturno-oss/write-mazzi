@@ -1,6 +1,6 @@
 {
-  "name": "WRITE Mazzi",
-  "short_name": "WRITE",
+  "name": "WRITE TCG Mazzi",
+  "short_name": "WRITE Mazzi",
   "description": "Crea e conserva i mazzi di WRITE Trading Card Game",
   "lang": "it",
   "start_url": "./",
