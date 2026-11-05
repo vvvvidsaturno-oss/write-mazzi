@@ -33,6 +33,52 @@ jobs:
           npx cap add android
           npx cap sync android
 
+      - name: Lascia lo spazio per barra di stato e barra di navigazione
+        run: |
+          cat > android/app/src/main/java/com/writemazzi/app/MainActivity.java <<'EOF'
+          package com.writemazzi.app;
+
+          import android.graphics.Color;
+          import android.os.Bundle;
+          import android.view.View;
+          import androidx.core.graphics.Insets;
+          import androidx.core.view.ViewCompat;
+          import androidx.core.view.WindowInsetsCompat;
+          import com.getcapacitor.BridgeActivity;
+
+          public class MainActivity extends BridgeActivity {
+            @Override
+            public void onCreate(Bundle savedInstanceState) {
+              super.onCreate(savedInstanceState);
+              View content = findViewById(android.R.id.content);
+              content.setBackgroundColor(Color.parseColor("#140D08"));
+              ViewCompat.setOnApplyWindowInsetsListener(content, (v, windowInsets) -> {
+                Insets bars = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+                v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+                return WindowInsetsCompat.CONSUMED;
+              });
+            }
+          }
+          EOF
+
+      - name: Usa il logo dell'app al posto di quello predefinito
+        run: |
+          res=android/app/src/main/res
+          for d in "mdpi 48 108" "hdpi 72 162" "xhdpi 96 216" "xxhdpi 144 324" "xxxhdpi 192 432"; do
+            set -- $d
+            rm -f $res/mipmap-$1/ic_launcher*.webp
+            convert icon-512.png -resize $2x$2 $res/mipmap-$1/ic_launcher.png
+            cp $res/mipmap-$1/ic_launcher.png $res/mipmap-$1/ic_launcher_round.png
+            convert icon-maskable-512.png -resize $3x$3 $res/mipmap-$1/ic_launcher_foreground.png
+          done
+          cat > $res/values/ic_launcher_background.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <color name="ic_launcher_background">#191108</color>
+          </resources>
+          EOF
+
       - name: Usa sempre la stessa chiave di firma (cosi' gli aggiornamenti non cancellano le carte)
         run: |
           mkdir -p ~/.android
